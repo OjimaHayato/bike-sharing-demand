@@ -1,0 +1,17 @@
+# Kaggle のデータと提出ファイル
+data/
+submissions/
+
+# Kaggle の API トークン（.env.example をコピーして作る）
+.env
+
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store

@@ -1,0 +1,20 @@
+[project]
+name = "bike-sharing"
+version = "0.1.0"
+description = "Kaggle「Bike Sharing Demand」で，自転車の 1 時間ごとの貸出台数を予測する"
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.0",
+    "kagglehub>=1.0",
+    "matplotlib>=3.10",
+    "pandas>=3.0",
+    "scikit-learn>=1.9",
+]
+
+[project.optional-dependencies]
+# ノートブックの出力を消してからコミットするための git フィルタ
+dev = ["nbstripout>=0.9"]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
