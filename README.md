@@ -8,7 +8,7 @@ Kaggle のコンペ「[Bike Sharing Demand](https://www.kaggle.com/competitions/
 ```
 .
 ├── notebooks/          # 1 実験 = 1 ノートブック．番号付きで増やし，前のものは書き換えない
-├── src/bike_sharing/   # 複数のノートブックで使う処理（data.py: データと提出ファイル，visualize.py: グラフの見た目）
+├── src/bike_sharing/   # 複数のノートブックで使う処理（data.py: データと提出ファイル，cv.py: 交差検証の分け方，visualize.py: グラフの見た目）
 ├── data/               # Kaggle のデータ．ノートブックを実行すると自動でダウンロードされる
 ├── submissions/        # 提出ファイル．<ノートブック名>.csv で書き出す
 └── .env.example        # Kaggle の API トークンを書く .env の見本
@@ -20,8 +20,10 @@ Kaggle のコンペ「[Bike Sharing Demand](https://www.kaggle.com/competitions/
 
 | ノートブック | 内容 | CV | LB |
 |---|---|---|---|
+| 02_baseline | 線形回帰（hour などは数値のまま） | 1.0205 | 1.04979 |
+| 02_baseline | ランダムフォレスト（sklearn の既定の設定） | 0.3460 | 0.43098 |
 
-CV は交差検証での RMSLE の平均．LB は Kaggle に提出したときのスコア．どちらも小さいほどよい．
+CV は交差検証での RMSLE の平均で，train を月の中の日で 4 つのブロック（1〜5，6〜10，11〜14，15〜19 日）に分けて出している（`src/bike_sharing/cv.py`）．LB は Kaggle に提出したときのスコア．どちらも小さいほどよい．
 
 ## Requirement
 
