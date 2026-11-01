@@ -22,6 +22,7 @@ Kaggle のコンペ「[Bike Sharing Demand](https://www.kaggle.com/competitions/
 |---|---|---|---|
 | 02_baseline | 線形回帰（hour などは数値のまま） | 1.0205 | 1.04979 |
 | 02_baseline | ランダムフォレスト（sklearn の既定の設定） | 0.3460 | 0.43098 |
+| 03_gbdt | 勾配ブースティング（HistGradientBoostingRegressor．既定の設定で，早期終了だけ切る） | 0.3172 | 0.40204 |
 
 CV は交差検証での RMSLE の平均で，train を月の中の日で 4 つのブロック（1〜5，6〜10，11〜14，15〜19 日）に分けて出している（`src/bike_sharing/cv.py`）．LB は Kaggle に提出したときのスコア．どちらも小さいほどよい．
 
