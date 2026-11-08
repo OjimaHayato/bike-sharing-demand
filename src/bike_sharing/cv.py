@@ -10,10 +10,17 @@ test は各月の 20 日〜月末で，train（各月の 1〜19 日）とは日�
 
   from sklearn.model_selection import PredefinedSplit, cross_val_score
 
-  cv = PredefinedSplit(get_folds(train))
+  folds = get_folds(train)
+  cv = PredefinedSplit(folds)
   scores = cross_val_score(model, X, y, cv=cv, scoring="neg_root_mean_squared_error")
+
+  # cross_val_predict の予測から，fold ごとのスコアを出すとき
+  oof = cross_val_predict(model, X, y, cv=cv)
+  scores = fold_scores(y, oof, folds)
 """
+import numpy as np
 import pandas as pd
+from sklearn.metrics import root_mean_squared_error
 
 N_FOLDS = 4
 
@@ -41,3 +48,24 @@ def get_folds(df: pd.DataFrame) -> pd.Series:
     folds[day >= 11] = 2
     folds[day >= 15] = 3
     return folds
+
+
+def fold_scores(y: pd.Series, pred: np.ndarray, folds: pd.Series) -> np.ndarray:
+    """fold ごとの RMSE を返す．
+
+    cross_val_predict の予測のように，全部の行をまとめて持っている予測から，cross_val_score と
+    同じ値を出すのに使う．casual と registered を別々に予測して足したときなど，cross_val_score を
+    そのまま使えないときのためのもの．log(1 + count) を渡せば RMSLE になる．
+
+    Args:
+        y: 実際の値．形は (n,)．
+        pred: 予測．形は (n,)．
+        folds: get_folds の戻り値．形は (n,)．
+
+    Returns:
+        fold ごとの RMSE．形は (N_FOLDS,)．
+    """
+    scores = []
+    for k in range(N_FOLDS):
+        scores.append(root_mean_squared_error(y[folds == k], pred[folds == k]))
+    return np.array(scores)
